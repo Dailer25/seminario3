@@ -11,6 +11,5 @@ public record DoctorDTO(
         String phone,
         List<HistoricalRecordDTO> historicalRecords,
         List<DateDTO> dates,
-        List<AbialtyDTO> abialities,
         Long idSpecialty
 ) {}

@@ -26,6 +26,5 @@ public class HistoricalRecord {
     @ManyToOne @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @OneToOne @JoinColumn(name = "date_id")
-    private Date date;
+
 }

@@ -26,8 +26,6 @@ public class Date {
     @ManyToOne @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @OneToOne(mappedBy = "date")
-    private HistoricalRecord historicalRecord;
 
     @ManyToOne @JoinColumn(name = "secretariat_id")
     private Secretariat secretariat;

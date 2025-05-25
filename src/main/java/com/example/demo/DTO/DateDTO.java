@@ -6,6 +6,5 @@ public record DateDTO(
         String hour,
         Long ccPatient,
         Long idDoctor,
-        Long idSecretariat,
-        HistoricalRecordDTO historiRecord
+        Long idSecretariat
 ) {}

@@ -60,11 +60,7 @@ public class Converter {
             secretariat.setId(dateDTO.idSecretariat());
             date.setSecretariat(secretariat);
         }
-        if(dateDTO.historiRecord() != null){
-            HistoricalRecord hc = converToHC(dateDTO.historiRecord());
-            hc.setDate(date);
-            date.setHistoricalRecord(hc);
-        }
+
 
         return date;
     }
@@ -95,15 +91,7 @@ public class Converter {
             }).collect(Collectors.toList());
         }
         doctor.setDates(dates);
-        List<Abiality> abialities = null;
-        if (doctorDTO.abialities() != null) {
-            abialities = doctorDTO.abialities().stream().map(abialityDTO -> {
-                Abiality abiality = converToAbiality(abialityDTO);
-                abiality.setDoctor(doctor);
-                return abiality;
-            }).collect(Collectors.toList());
-        }
-        doctor.setAbialities(abialities);
+
         if (doctorDTO.idSpecialty() != null){
             Specialty specialty = new Specialty();
             specialty.setId(doctorDTO.idSpecialty());
@@ -129,31 +117,13 @@ public class Converter {
             doctor.setId(hcDTO.idDoctor());
             hc.setDoctor(doctor);
         }
-        if(hcDTO.date() != null){
-            Date date = converToDate(hcDTO.date());
-            date.setHistoricalRecord(hc);
-            hc.setDate(date);
 
-        }
 
 
         return hc;
     }
 
-    public Abiality converToAbiality(AbialtyDTO abialtyDTO){
-        Abiality abiality = new Abiality();
-        abiality.setId(abialtyDTO.id());
-        abiality.setStart_hour(abialtyDTO.start_hour());
-        abiality.setEnd_hour(abialtyDTO.end_hour());
-        abiality.setState(abialtyDTO.state());
-        if(abialtyDTO.idDoctor() != null){
-            Doctor doctor = new Doctor();
-            doctor.setId(abialtyDTO.idDoctor());
-            abiality.setDoctor(doctor);
-        }
 
-        return abiality;
-    }
 
     public Secretariat convertToSecretariant(SecretariatDTO secDTO){
         Secretariat sec = new Secretariat();
@@ -216,7 +186,6 @@ public class Converter {
         PatientDTO patientDTO = convertToPatientDTO(date.getPatient());
         DoctorDTO doctorDTO = converToDoctorDTO(date.getDoctor());
         SecretariatDTO secretariatDTO = converToSecretariantDTO(date.getSecretariat());
-        HistoricalRecordDTO historicalRecordDTO = date.getHistoricalRecord() != null ? convertToHCDTO(date.getHistoricalRecord()) : null;
 
         return new DateDTO(
                 date.getId(),
@@ -224,8 +193,7 @@ public class Converter {
                 date.getHour(),
                 patientDTO.cc(),
                 doctorDTO.id(),
-                secretariatDTO.id(),
-                historicalRecordDTO
+                secretariatDTO.id()
         );
     }
 
@@ -233,7 +201,6 @@ public class Converter {
 
         List<HistoricalRecordDTO> hcDTO = doctor.getHistoricalRecords().stream().map(this::convertToHCDTO).collect(Collectors.toList());
         List<DateDTO> dateDTOS = doctor.getDates().stream().map(this::convertToDateDTO).collect(Collectors.toList());
-        List<AbialtyDTO> abialtyDTOS = doctor.getAbialities().stream().map(this::convertToAbialityDTO).collect(Collectors.toList());
         SpecialtyDTO specialtyDTO = converToSpecialtyDTO(doctor.getSpecialty());
 
         return new DoctorDTO(
@@ -245,7 +212,6 @@ public class Converter {
                 doctor.getPhone(),
                 hcDTO,
                 dateDTOS,
-                abialtyDTOS,
                 specialtyDTO.id()
         );
     }
@@ -254,7 +220,6 @@ public class Converter {
 
         PatientDTO patientDTO = convertToPatientDTO(hc.getPatient());
         DoctorDTO doctorDTO = converToDoctorDTO(hc.getDoctor());
-        DateDTO dateDTO = hc.getDate() != null ? convertToDateDTO(hc.getDate()) : null;
 
         return new HistoricalRecordDTO(
                 hc.getId(),
@@ -263,23 +228,11 @@ public class Converter {
                 hc.getMedical_exam(),
                 hc.getPrescription(),
                 patientDTO.cc(),
-                doctorDTO.id(),
-                dateDTO
-        );
-    }
-
-    public AbialtyDTO convertToAbialityDTO(Abiality abiality){
-
-        DoctorDTO doctorDTO = converToDoctorDTO(abiality.getDoctor());
-
-        return new AbialtyDTO(
-                abiality.getId(),
-                abiality.getStart_hour(),
-                abiality.getEnd_hour(),
-                abiality.getState(),
                 doctorDTO.id()
         );
     }
+
+
 
     public SecretariatDTO converToSecretariantDTO(Secretariat secretariat){
 

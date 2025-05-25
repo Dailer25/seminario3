@@ -29,8 +29,6 @@ public class Doctor {
     @OneToMany (mappedBy = "doctor")
     private List<Date> dates;
 
-    @OneToMany (mappedBy = "doctor")
-    private List<Abiality> abialities;
 
     @ManyToOne @JoinColumn(name = "specialty_id")
     private Specialty specialty;

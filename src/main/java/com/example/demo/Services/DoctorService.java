@@ -21,7 +21,8 @@ public class DoctorService {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
+    @Autowired
+    private SpecialtyRepository specialtyRepository;
     @Autowired
     private Converter converter;
 
@@ -51,7 +52,8 @@ public class DoctorService {
         doctor.setLastName(doctorDTO.lastName());
         doctor.setEmail(doctorDTO.email());
         doctor.setPhone(doctorDTO.phone());
-
+        Specialty specialty = specialtyRepository.findById(doctorDTO.idSpecialty()).orElseThrow(()-> new RuntimeException("Especialidad no encontrada"));
+        doctor.setSpecialty(specialty);
         return converter.converToDoctorDTO(doctorRepository.save(doctor));
     }
 

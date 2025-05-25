@@ -7,6 +7,6 @@ public record HistoricalRecordDTO(
        String medical_exam,
        String prescription,
        Long ccPatient,
-       Long idDoctor,
-       DateDTO date
+       Long idDoctor
+
 ) {}
